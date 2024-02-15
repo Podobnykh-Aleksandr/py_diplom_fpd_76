@@ -34,6 +34,9 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
+SOCIAL_AUTH_JSONFIELD_ENABLED = True
+
+SOCIAL_AUTH_REQUIRE_POST = True
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -45,7 +48,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'django_rest_passwordreset',
+
     'drf_spectacular',
+    'social_django',
+    'jet',
 
     'users',
     'shops',
@@ -62,6 +68,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
+
 ROOT_URLCONF = 'netology_diplom.urls'
 
 TEMPLATES = [
@@ -76,6 +85,9 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -92,7 +104,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'marketplace_db',
         'USER': 'postgres',
-        'PASSWORD': '**YaNeSuper2023!!',
+        'PASSWORD': '3543',
         'HOST': 'localhost',
         'PORT': 5432
     }
@@ -167,13 +179,24 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+
+STATIC_ROOT =  'static/'
 STATIC_URL = 'static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.AllowAllUsersModelBackend']
+AUTHENTICATION_BACKENDS = (
+    ['django.contrib.auth.backends.AllowAllUsersModelBackend'],
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',)
+
+
 
 # Email Settings:
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
